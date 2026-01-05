@@ -1,133 +1,98 @@
 "use client";
-import {
-  TextField,
-  Checkbox,
-  FormControlLabel,
-  Divider,
-  Typography,
-  Box,
-} from "@mui/material";
+
+import { Form, Input, Typography, Divider } from "antd";
 import Button from "../common/Button";
+import Image from "next/image";
 import IconFB from "@/public/ic_fb.svg";
 import IconGG from "@/public/ic_google.svg";
-import Image from "next/image";
-import { Controller, UseFormReturn } from "react-hook-form";
-import { LoginFormValues } from "@/src/types/login";
+import { FormInput } from "../common/FormInput";
+
+const { Title } = Typography;
+
+type LoginFormValues = {
+  email: string;
+  password: string;
+};
 
 interface LoginFormProps {
-  form: UseFormReturn<LoginFormValues>;
   onSubmit: (data: LoginFormValues) => void;
 }
 
-export default function LoginForm({ form, onSubmit }: LoginFormProps) {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = form;
+export default function LoginForm({ onSubmit }: LoginFormProps) {
   return (
-    <Box className="mx-auto max-w-md rounded-lg bg-white p-6 shadow">
-      <Typography
-        variant="h5"
-        className="mb-4 font-semibold! cursor-pointer"
+    <div className="mx-auto max-w-md rounded-lg bg-white p-6 shadow">
+      {/* Logo */}
+      <Title
+        level={3}
+        className="mb-2 cursor-pointer"
         onClick={() => {
           window.location.href = "/";
         }}
       >
         Jobsy
-      </Typography>
+      </Title>
 
-      <Typography variant="h5" className="mb-4 font-semibold! mt-2!">
+      <Title level={4} className="mb-6">
         Log ind med din Jobsy.dk konto
-      </Typography>
+      </Title>
 
-      <Box
-        component="form"
-        className="space-y-4 mt-6"
-        onSubmit={handleSubmit(onSubmit)}
-      >
+      <Form layout="vertical" onFinish={onSubmit} className="space-y-4">
         {/* Email */}
-        <Controller
+        <Form.Item
           name="email"
-          control={control}
-          rules={{
-            required: "Email is required",
-            pattern: {
-              value: /^\S+@\S+$/i,
+          label="Email"
+          rules={[
+            { required: true, message: "Email is required" },
+            {
+              type: "email",
               message: "Invalid email format",
             },
-          }}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="Email"
-              type="email"
-              fullWidth
-              size="small"
-              placeholder="your@email.com"
-              error={!!errors.email}
-              helperText={errors.email?.message}
-            />
-          )}
-        />
+          ]}
+        >
+          <FormInput placeholder="your@email.com" />
+        </Form.Item>
 
         {/* Password */}
-        <Controller
+        <Form.Item
           name="password"
-          control={control}
-          rules={{
-            required: "Password is required",
-          }}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="Password"
-              type="password"
-              className="mt-4!"
-              fullWidth
-              size="small"
-              placeholder="••••••••"
-              error={!!errors.password}
-              helperText={errors.password?.message}
-            />
-          )}
-        />
+          label="Password"
+          rules={[{ required: true, message: "Password is required" }]}
+        >
+          <FormInput placeholder="••••••••" type={"password"} />
+        </Form.Item>
 
-        {/* Remember me */}
-        {/* <FormControlLabel control={<Checkbox />} label="Remember me" /> */}
-
-        <Button type="submit" variant="primary" className="w-full mt-6">
+        {/* Submit */}
+        <Button type="submit" variant="primary" className="w-full mt-4">
           Log ind
         </Button>
 
-        <Box className="mt-2 text-center">
+        {/* Forgot password */}
+        <div className="text-center">
           <Button variant="link">Glemt dit password?</Button>
-        </Box>
+        </div>
 
         <Divider className="my-4">or</Divider>
 
+        {/* Google */}
         <Button
           variant="secondary"
-          icon={<Image alt="google" className="w-6 h-6" src={IconGG} />}
-          className="w-full mt-6"
+          icon={<Image alt="google" className="h-6 w-6" src={IconGG} />}
+          className="w-full"
           type="button"
         >
           Log ind med Google
         </Button>
 
+        {/* Facebook */}
         <Button
           variant="secondary"
-          icon={<Image alt="facebook" className="w-6 h-6" src={IconFB} />}
-          className="w-full mb-2"
+          icon={<Image alt="facebook" className="h-6 w-6" src={IconFB} />}
+          className="w-full"
           type="button"
         >
           Log ind med Facebook
         </Button>
-
-        {/* <Box className="mt-4 text-center text-sm">
-          Don’t have an account? <Button variant="link">Sign up</Button>
-        </Box> */}
-      </Box>
-    </Box>
+      </Form>
+    </div>
   );
 }

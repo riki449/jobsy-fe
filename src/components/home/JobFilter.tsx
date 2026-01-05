@@ -1,15 +1,15 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import { TextField, IconButton } from "@mui/material";
-import { FormSelect, SelectOption } from "../common/Select";
+import { Form, Input } from "antd";
+import { FormSelect, SelectOption } from "../common/FormSelect";
 import Button from "../common/Button";
+import { FormInput } from "../common/FormInput";
 
 type JobFilterValues = {
-  category: string;
-  location: string;
-  budget: string;
-  keyword: string;
+  category?: string;
+  location?: string;
+  budget?: string;
+  keyword?: string;
 };
 
 const categoryOptions: SelectOption[] = [
@@ -25,7 +25,10 @@ const locationOptions: SelectOption[] = [
 
 const budgetOptions: SelectOption[] = [
   { label: "0-2.000", value: "0-2000" },
-  { label: "2.000-5.000", value: "2000-5000" },
+  { label: "2.000-10.000", value: "2000-10000" },
+  { label: "10.000-50.000", value: "10000-50000" },
+  { label: "50.000-100.000", value: "50000-100000" },
+  { label: "Over 100.000", value: "100000" },
 ];
 
 export default function JobFilter({
@@ -33,45 +36,30 @@ export default function JobFilter({
 }: {
   onSearch: (values: JobFilterValues) => void;
 }) {
-  const { control, register, handleSubmit } = useForm<JobFilterValues>();
-
   return (
-    <form
-      onSubmit={handleSubmit(onSearch)}
-      className="mx-auto flex max-w-6xl items-center gap-3 rounded-xl bg-white p-3 shadow-sm"
+    <Form
+      onFinish={onSearch}
+      className="flex items-center gap-3 rounded-xl bg-white shadow-sm p-4!"
     >
-      <FormSelect
-        name="category"
-        label="Malerarbejde"
-        control={control}
-        options={categoryOptions}
-      />
+      <Form.Item name="category" className="mb-0! w-40">
+        <FormSelect placeholder="Malerarbejde" options={categoryOptions} />
+      </Form.Item>
 
-      <FormSelect
-        name="location"
-        label="Århus"
-        control={control}
-        options={locationOptions}
-      />
+      <Form.Item name="location" className="mb-0! w-40">
+        <FormSelect placeholder="Århus" options={locationOptions} />
+      </Form.Item>
 
-      <FormSelect
-        name="budget"
-        label="0-2.000"
-        control={control}
-        options={budgetOptions}
-      />
+      <Form.Item name="budget" className="mb-0! w-40">
+        <FormSelect placeholder="0-2.000" options={budgetOptions} />
+      </Form.Item>
 
-      <TextField
-        {...register("keyword")}
-        size="small"
-        placeholder="Søg efter opgave..."
-        fullWidth
-        className="bg-lightGray"
-      />
+      <Form.Item name="keyword" className="mb-0! flex-1">
+        <FormInput placeholder="Søg efter opgave..." />
+      </Form.Item>
 
       <Button type="submit" variant="primary" color="red-500">
         →
       </Button>
-    </form>
+    </Form>
   );
 }

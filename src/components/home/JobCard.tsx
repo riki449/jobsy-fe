@@ -1,5 +1,5 @@
 import { JobItem } from "@/src/types/job";
-import { Divider } from "@mui/material";
+import { Divider } from "antd";
 
 // components/JobCard.tsx
 interface Props {
@@ -45,7 +45,7 @@ export default function JobCard({ job }: Props) {
         </div>
       </div>
 
-      <Divider className="bg-lightGray mx-4! hidden lg:block self-center w-0.5 h-40" />
+      <Divider vertical className="h-35! bg-lightGray mx-6!" />
 
       {/* Right */}
       <div className="flex min-w-50 flex-row lg:flex-col items-start justify-between">

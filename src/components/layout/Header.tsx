@@ -4,6 +4,7 @@ import { useState } from "react";
 import Sidebar from "./SideBar";
 import { useAuth } from "@/src/hooks/useAuth";
 import { useRouter } from "next/navigation";
+import UserMenu from "./UserMenu";
 
 export default function Header() {
   const router = useRouter();
@@ -47,9 +48,7 @@ export default function Header() {
                 Saldo: 355,00 DKK
               </span>
 
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-zinc-200 text-sm font-medium">
-                TU
-              </div>
+              <UserMenu />
             </div>
           ) : (
             <div className="flex items-center gap-4">
