@@ -69,7 +69,7 @@ export default function UserMenu() {
       menu={{ items }}
       trigger={["click"]}
       placement="bottomRight"
-      overlayClassName="jobsy-user-dropdown"
+      className="jobsy-user-dropdown"
     >
       <div className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-zinc-200 text-sm font-medium">
         TU

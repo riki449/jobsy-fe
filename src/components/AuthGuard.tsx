@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { Role } from "../constants/roles";
 import { useAuth } from "../hooks/useAuth";
+import { Spin } from "antd";
 
-export default function RoleGuard({
+export default function AuthGuard({
   allowedRoles,
   children,
 }: {
@@ -14,31 +15,31 @@ export default function RoleGuard({
 }) {
   const { isAuthenticated, role } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
 
+    // Not logged in then go to login
     if (!isAuthenticated && !token) {
-      router.replace("/login");
-      return;
-    }
-
-    if (role && !allowedRoles.includes(role)) {
-      router.replace("/403");
+      if (pathname !== "/login") {
+        router.replace("/login");
+      }
       return;
     }
 
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setLoading(false);
-  }, [isAuthenticated, role, router, allowedRoles]);
+  }, [isAuthenticated, role, router, pathname, allowedRoles]);
 
-  if (loading)
+  if (loading) {
     return (
-      <div className="flex flex-1 items-center justify-center h-screen">
-        <h1>Checking access...</h1>
+      <div className="flex h-screen items-center justify-center">
+        <Spin />
       </div>
     );
+  }
 
   return <>{children}</>;
 }

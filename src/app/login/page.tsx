@@ -3,25 +3,19 @@
 import LoadingOverlay from "@/src/components/common/LoadingOverlay";
 import LoginContainer from "@/src/components/login/LoginContainer";
 import LoginForm from "@/src/components/login/LoginForm";
-import { useLogin } from "@/src/hooks/useAuth";
+import { useAuth, useLogin } from "@/src/hooks/useAuth";
 import { loginSuccess } from "@/src/store/authSlice";
 import { LoginFormValues } from "@/src/types/login";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 export default function LoginPage() {
   const dispatch = useDispatch();
   const router = useRouter();
+  const { isAuthenticated } = useAuth();
 
   const { mutateAsync: login, isPending } = useLogin();
-
-  const loginForm = useForm<LoginFormValues>({
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
 
   const onSubmit = async (data: LoginFormValues) => {
     const response = await login(data);
@@ -32,6 +26,12 @@ export default function LoginPage() {
     }
   };
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.replace("/home");
+    }
+  }, [isAuthenticated, router]);
+
   return (
     <LoadingOverlay loading={isPending}>
       <LoginContainer
@@ -39,7 +39,7 @@ export default function LoginPage() {
         alignItems="center"
         justifyContent="center"
       >
-        <LoginForm form={loginForm} onSubmit={onSubmit} />
+        <LoginForm onSubmit={onSubmit} />
       </LoginContainer>
     </LoadingOverlay>
   );

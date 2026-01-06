@@ -1,10 +1,10 @@
 "use client";
 
-import { Form, Input, Typography, Divider } from "antd";
-import Button from "../common/Button";
-import Image from "next/image";
 import IconFB from "@/public/ic_fb.svg";
 import IconGG from "@/public/ic_google.svg";
+import { Divider, Form, Typography } from "antd";
+import Image from "next/image";
+import Button from "../common/Button";
 import { FormInput } from "../common/FormInput";
 
 const { Title } = Typography;
@@ -40,7 +40,6 @@ export default function LoginForm({ onSubmit }: LoginFormProps) {
         {/* Email */}
         <Form.Item
           name="email"
-          label="Email"
           rules={[
             { required: true, message: "Email is required" },
             {
@@ -49,16 +48,20 @@ export default function LoginForm({ onSubmit }: LoginFormProps) {
             },
           ]}
         >
-          <FormInput placeholder="your@email.com" />
+          <FormInput label="Email" required placeholder="your@email.com" />
         </Form.Item>
 
         {/* Password */}
         <Form.Item
           name="password"
-          label="Password"
           rules={[{ required: true, message: "Password is required" }]}
         >
-          <FormInput placeholder="••••••••" type={"password"} />
+          <FormInput
+            label="Password"
+            required
+            placeholder="••••••••"
+            type={"password"}
+          />
         </Form.Item>
 
         {/* Submit */}

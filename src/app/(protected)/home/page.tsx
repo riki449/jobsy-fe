@@ -1,12 +1,10 @@
 "use client";
 
-import Button from "@/src/components/common/Button";
+import AuthGuard from "@/src/components/AuthGuard";
 import JobFilter from "@/src/components/home/JobFilter";
 import JobList from "@/src/components/home/JobList";
 import AppLayout from "@/src/components/layout/AppLayout";
-import RoleGuard from "@/src/components/RoleGuard";
 import { Role } from "@/src/constants/roles";
-import { logout } from "@/src/store/authSlice";
 import { JobItem } from "@/src/types/job";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
@@ -30,7 +28,7 @@ export default function HomePage() {
   const router = useRouter();
 
   return (
-    <RoleGuard allowedRoles={[Role.USER]}>
+    <AuthGuard allowedRoles={[Role.USER]}>
       <AppLayout>
         <div className="min-h-screen">
           <JobFilter onSearch={() => {}} />
@@ -40,6 +38,6 @@ export default function HomePage() {
           <JobList jobs={jobs} />
         </div>
       </AppLayout>
-    </RoleGuard>
+    </AuthGuard>
   );
 }

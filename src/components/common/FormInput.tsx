@@ -37,9 +37,11 @@ export function FormInput({
   return (
     <div className={`flex flex-col gap-1 ${containerClassName ?? ""}`}>
       {label && (
-        <label className="text-sm font-bold! text-zinc-700">
+        <label className="text-sm font-medium text-zinc-700">
+          {required && (
+            <span className="ml-1 font-normal! text-red-500">* </span>
+          )}
           {label}
-          {required && <span className="ml-1 text-red-500">*</span>}
         </label>
       )}
 
