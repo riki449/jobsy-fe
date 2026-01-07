@@ -1,3 +1,5 @@
+"use client";
+
 import HeroSection from "../components/landing-page/FilterSection";
 import RatingSection from "../components/landing-page/RatingSection";
 import WhyJobsy from "../components/landing-page/WhyJobsy";

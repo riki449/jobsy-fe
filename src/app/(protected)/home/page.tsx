@@ -5,9 +5,8 @@ import JobFilter from "@/src/components/home/JobFilter";
 import JobList from "@/src/components/home/JobList";
 import AppLayout from "@/src/components/layout/AppLayout";
 import { Role } from "@/src/constants/roles";
+// import { useGetJobList } from '@/src/hooks/useJob';
 import { JobItem } from "@/src/types/job";
-import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
 
 const jobs: JobItem[] = Array.from({ length: 10 }).map((_, index) => ({
   id: "1",
@@ -24,8 +23,7 @@ const jobs: JobItem[] = Array.from({ length: 10 }).map((_, index) => ({
 }));
 
 export default function HomePage() {
-  const dispatch = useDispatch();
-  const router = useRouter();
+  // const { mutateAsync: getListJob } = useGetJobList();
 
   return (
     <AuthGuard allowedRoles={[Role.USER]}>

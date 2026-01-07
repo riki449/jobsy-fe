@@ -12,3 +12,12 @@ export interface JobItem {
   customerName: string;
   customerInitials: string;
 }
+
+export interface JobListResponse {
+  id: string;
+}
+
+export interface JobListRequest {
+  page_size: number;
+  page: number;
+}

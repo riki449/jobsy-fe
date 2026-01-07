@@ -29,7 +29,7 @@ export default function Header() {
             <div className="flex items-end gap-2">
               <span
                 onClick={() => {
-                  router.push("/home");
+                  router.push("/");
                 }}
                 className="text-4xl cursor-pointer font-semibold"
               >
