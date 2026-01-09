@@ -2,8 +2,15 @@ import type { ReactNode } from "react";
 import Header from "./Header";
 import Sidebar from "./SideBar";
 import Footer from "./Footer";
+import LoadingOverlay from "../common/LoadingOverlay";
 
-export default function AppLayout({ children }: { children: ReactNode }) {
+export default function AppLayout({
+  children,
+  isLoading = false,
+}: {
+  children: ReactNode;
+  isLoading?: boolean;
+}) {
   return (
     <div className="bg-lightGray! text-zinc-900">
       <Header />
@@ -15,7 +22,9 @@ export default function AppLayout({ children }: { children: ReactNode }) {
         </div>
 
         {/* Main content */}
-        <main className="w-full lg:ml-6">{children}</main>
+        <main className="w-full lg:ml-6">
+          <LoadingOverlay loading={isLoading}>{children}</LoadingOverlay>
+        </main>
       </div>
 
       <Footer />

@@ -1,12 +1,16 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Role } from "../constants/roles";
-import { Tokens } from "../types/login";
+import { CheckAccountType, Tokens, UserType } from "../types/login";
 
 interface AuthState {
   token: string | null;
   refreshToken: string | null;
   role: Role | null;
   isAuthenticated: boolean;
+  userType: UserType | null;
+  accountName: string | null;
+  email: string | null;
+  id: string | null;
 }
 
 const initialState: AuthState = {
@@ -14,6 +18,10 @@ const initialState: AuthState = {
   refreshToken: null,
   role: null,
   isAuthenticated: false,
+  userType: null,
+  accountName: null,
+  email: null,
+  id: null,
 };
 
 const authSlice = createSlice({
@@ -30,9 +38,19 @@ const authSlice = createSlice({
       state.refreshToken = null;
       state.role = null;
       state.isAuthenticated = false;
+      state.userType = null;
+      state.accountName = null;
+      state.email = null;
+      state.id = null;
       localStorage.setItem("token", "");
+    },
+    saveUserType: (state, action: PayloadAction<CheckAccountType>) => {
+      state.userType = action.payload.type;
+      state.accountName = action.payload.main_account.account_name;
+      state.email = action.payload.main_account.email;
+      state.id = action.payload.main_account.id;
     },
   },
 });
-export const { loginSuccess, logout } = authSlice.actions;
+export const { loginSuccess, logout, saveUserType } = authSlice.actions;
 export default authSlice.reducer;

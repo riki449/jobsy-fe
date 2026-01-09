@@ -1,3 +1,7 @@
+import { useAuth } from "@/src/hooks/useAuth";
+import HeaderNav, { NAV_ITEMS } from "./HeaderNav";
+import { usePathname } from "next/navigation";
+
 const menu = [
   { label: "Opgaver i udbud", active: true },
   { label: "Afsendte bud" },
@@ -7,27 +11,56 @@ const menu = [
 ];
 
 export default function Sidebar() {
+  const { isAuthenticated } = useAuth();
+  const pathname = usePathname();
   return (
     <aside className="w-64">
       <div className="rounded-xl bg-white p-4 shadow-sm">
         <p className="mb-3 text-sm font-semibold text-zinc-500">Menu</p>
 
-        <ul className="space-y-1">
-          {menu.map((item) => (
-            <li key={item.label}>
-              <button
-                className={`w-full cursor-pointer rounded-lg px-3 py-2 text-left text-sm font-medium transition
+        {/* Navigation tabs (mobile only) */}
+        <div className="md:hidden">
+          <HeaderNav />
+        </div>
+
+        {isAuthenticated ? (
+          <ul className="space-y-1">
+            {menu.map((item) => (
+              <li key={item.label}>
+                <button
+                  className={`w-full cursor-pointer rounded-lg px-3 py-2 text-left text-sm font-medium transition
                   ${
                     item.active
                       ? "bg-green-100 text-green-700"
                       : "text-zinc-600 hover:bg-zinc-100"
                   }`}
-              >
-                {item.label}
-              </button>
-            </li>
-          ))}
-        </ul>
+                >
+                  {item.label}
+                </button>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <ul className="space-y-1">
+            {NAV_ITEMS.map((item) => {
+              const isActive = pathname === item.href;
+              return (
+                <li key={item.label}>
+                  <button
+                    className={`w-full cursor-pointer rounded-lg px-3 py-2 text-left text-sm font-medium transition
+                  ${
+                    isActive
+                      ? "bg-green-100 text-green-700"
+                      : "text-zinc-600 hover:bg-zinc-100"
+                  }`}
+                  >
+                    {item.label}
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
 
       {/* Boost */}

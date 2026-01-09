@@ -1,7 +1,6 @@
 import { JobItem } from "@/src/types/job";
 import { Divider } from "antd";
 
-// components/JobCard.tsx
 interface Props {
   job: JobItem;
 }
@@ -19,12 +18,12 @@ export default function JobCard({ job }: Props) {
           <div className="flex flex-row justify-between">
             <h3 className="font-semibold text-zinc-900">{job.title}</h3>
             <span className="rounded-full bg-green-100 px-3 py-1 text-xs text-green-700">
-              {job.dateLabel}
+              {job.category_title}
             </span>
           </div>
 
           <p className="text-sm text-zinc-500 mt-1">
-            📍 {job.location} ({job.distanceKm} km) · # ID: {job.jobId}
+            📍 {"Location"} ({job?.distance || 36} km) · # ID: {job.id}
           </p>
 
           <p className="mt-2 text-sm text-zinc-600">
@@ -33,14 +32,14 @@ export default function JobCard({ job }: Props) {
           </p>
 
           <div className="mt-3 flex flex-wrap gap-2">
-            {job.tags.map((tag) => (
+            {/* {job.tags.map((tag) => (
               <span
                 key={tag}
                 className="rounded-md bg-zinc-100 px-2 py-1 text-xs text-zinc-600"
               >
                 {tag}
               </span>
-            ))}
+            ))} */}
           </div>
         </div>
       </div>
@@ -58,9 +57,9 @@ export default function JobCard({ job }: Props) {
 
         <div className="mt-3 flex items-center gap-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-purple-500 text-white text-sm">
-            {job.customerInitials}
+            {/* {job.customerInitials} */}
           </div>
-          <span className="text-sm text-zinc-600">{job.customerName}</span>
+          <span className="text-sm text-zinc-600">{job.username}</span>
         </div>
 
         <button className="mt-4 w-full max-w-50 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700">

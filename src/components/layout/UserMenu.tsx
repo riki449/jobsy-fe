@@ -10,9 +10,21 @@ import {
 import type { MenuProps } from "antd";
 import { useDispatch } from "react-redux";
 import { logout } from "@/src/store/authSlice";
+import { useAuth } from "@/src/hooks/useAuth";
+import { getUserName } from "@/src/utils/utils";
+import { UserType } from "@/src/types/login";
 
 export default function UserMenu() {
   const dispatch = useDispatch();
+  const { accountName, userType } = useAuth();
+  const isCompany = userType === UserType.COMPANY;
+
+  const activeStyle =
+    "rounded-md bg-lime-400 px-3 py-1 text-sm font-medium text-black";
+  const inactiveStyle = "text-sm";
+
+  const userName = getUserName(accountName || "") || "-";
+
   const items: MenuProps["items"] = [
     {
       key: "plan",
@@ -55,8 +67,10 @@ export default function UserMenu() {
       key: "switch",
       label: (
         <div className="flex items-center justify-between gap-2">
-          <span className="text-sm">Kundebruger</span>
-          <span className="rounded-md bg-lime-400 px-3 py-1 text-sm font-medium text-black">
+          <span className={isCompany ? inactiveStyle : activeStyle}>
+            Kundebruger
+          </span>
+          <span className={isCompany ? activeStyle : inactiveStyle}>
             Firmabruger
           </span>
         </div>
@@ -72,7 +86,7 @@ export default function UserMenu() {
       className="jobsy-user-dropdown"
     >
       <div className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-zinc-200 text-sm font-medium">
-        TU
+        {userName}
       </div>
     </Dropdown>
   );

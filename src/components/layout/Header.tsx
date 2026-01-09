@@ -1,10 +1,12 @@
 "use client";
 
-import { useState } from "react";
-import Sidebar from "./SideBar";
 import { useAuth } from "@/src/hooks/useAuth";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import Sidebar from "./SideBar";
 import UserMenu from "./UserMenu";
+import Button from "../common/Button";
+import HeaderNav from "./HeaderNav";
 
 export default function Header() {
   const router = useRouter();
@@ -13,13 +15,13 @@ export default function Header() {
 
   return (
     <>
-      {/* <header className="sticky top-0 z-40 overflow-hidden bg-[url('/headerBg.svg')] bg-repeat"> */}
-      <header className="sticky top-0 z-40 border-b border-[#DDF0FF] bg-white">
+      <header className="sticky top-0 z-40 overflow-hidden bg-[url('/headerBg.svg')] bg-repeat">
+        {/* <header className="sticky top-0 z-40 border-b border-[#DDF0FF] bg-white"> */}
         <div className="mx-auto flex h-18.5! max-w-7xl items-center justify-between px-4">
           {/* Left */}
           <div className="flex items-center gap-3">
             <button
-              className="lg:hidden"
+              className="lg:hidden text-white cursor-pointer"
               onClick={() => setOpen(true)}
               aria-label="Open menu"
             >
@@ -31,14 +33,17 @@ export default function Header() {
                 onClick={() => {
                   router.push("/");
                 }}
-                className="text-4xl cursor-pointer font-semibold"
+                className="text-4xl text-white cursor-pointer font-semibold"
               >
                 Jobsy
               </span>
-              <span className="text-[16px] font-semibold">
+              <span className="text-[16px] text-white font-semibold">
                 Billigst hver gang
               </span>
             </div>
+
+            {/* Navigation tabs */}
+            <HeaderNav />
           </div>
 
           {/* Right */}
@@ -51,16 +56,14 @@ export default function Header() {
               <UserMenu />
             </div>
           ) : (
-            <div className="flex items-center gap-4">
-              <span className="rounded-full cursor-pointer bg-green-100 px-3 h-8 items-center justify-center flex text-sm font-medium text-green-700">
-                Tilmeld Firma
-              </span>
+            <div className="flex items-center gap-2">
+              <Button variant="outline">Tilmeld Firma</Button>
 
               <div
                 onClick={() => {
                   router.push("/login");
                 }}
-                className="flex cursor-pointer h-8 px-4 items-center justify-center rounded-full bg-zinc-200 text-sm font-medium"
+                className="text-[#c3c3c3] text-sm font-medium cursor-pointer px-4 py-1.5"
               >
                 Log ind
               </div>

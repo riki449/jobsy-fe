@@ -1,21 +1,32 @@
-import { createMutation } from "react-query-kit";
-import { JobListRequest, JobListResponse } from "../types/job";
-import { AxiosError } from "axios";
-import { message } from "antd";
-import { getListJobApi } from "../networks/jobApis";
-
-export const useGetJobList = createMutation<
-  JobListResponse,
+import { useQuery, UseQueryResult } from "@tanstack/react-query";
+import { getJobMasterDataApi, getListJobApi } from "../networks/jobApis";
+import {
+  JobCategoryGroupData,
   JobListRequest,
-  AxiosError
->({
-  mutationFn: getListJobApi,
-  onError: (error) => {
-    const errorMessage =
-      (error.response?.data as AxiosError)?.message ||
-      error.message ||
-      "Get Jobs failed. Please try again.";
+  JobListResponse,
+} from "../types/job";
+import { AxiosError } from "axios";
 
-    message.error(errorMessage);
-  },
-});
+export const jobQueryKeys = {
+  GET_JOB_LIST: "GET_JOB_LIST",
+  GET_JOB_MASTER_DATA: "GET_JOB_MASTER_DATA",
+};
+
+export const useGetJobList = (
+  params: JobListRequest
+): UseQueryResult<JobListResponse, AxiosError> => {
+  return useQuery<JobListResponse, AxiosError>({
+    queryKey: [jobQueryKeys.GET_JOB_LIST, params],
+    queryFn: () => getListJobApi(params),
+  });
+};
+
+export const useGetJobMasterData = (): UseQueryResult<
+  JobCategoryGroupData,
+  AxiosError
+> => {
+  return useQuery<JobCategoryGroupData, AxiosError>({
+    queryKey: [jobQueryKeys.GET_JOB_MASTER_DATA],
+    queryFn: () => getJobMasterDataApi(),
+  });
+};

@@ -4,7 +4,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { Provider, useDispatch } from "react-redux";
 import { loginSuccess } from "../store/authSlice";
-import { store } from "../store/store";
+import { persistor, store } from "../store/store";
+import { PersistGate } from "redux-persist/integration/react";
 
 const queryClient = new QueryClient();
 
@@ -29,10 +30,12 @@ export default function AppProviders({
 }) {
   return (
     <Provider store={store}>
-      <QueryClientProvider client={queryClient}>
-        <AuthInit />
-        {children}
-      </QueryClientProvider>
+      <PersistGate loading={null} persistor={persistor}>
+        <QueryClientProvider client={queryClient}>
+          <AuthInit />
+          {children}
+        </QueryClientProvider>
+      </PersistGate>
     </Provider>
   );
 }

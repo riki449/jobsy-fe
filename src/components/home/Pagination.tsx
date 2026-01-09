@@ -25,7 +25,7 @@ export default function Pagination({ page, totalPages, onChange }: Props) {
             <button
               key={p}
               onClick={() => onChange(p)}
-              className={`h-8 w-8 rounded-md text-sm ${
+              className={`h-8 w-8 rounded-md cursor-pointer text-sm ${
                 p === page
                   ? "bg-green-100 text-green-700"
                   : "text-zinc-600 hover:bg-zinc-100"
