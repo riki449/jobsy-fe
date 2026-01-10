@@ -25,6 +25,8 @@ jobs:
         run: pnpm install
 
       - name: Test Build
+        env:
+          NEXT_PUBLIC_API_BASE_URL: http://185.121.173.207:5172/api
         run: pnpm build
 
   deploy:
@@ -45,6 +47,9 @@ jobs:
             cd /home/admin/jobsy-fe
             
             git reset --hard origin/main
+            
+            # Create .env.production file with API base URL
+            echo "NEXT_PUBLIC_API_BASE_URL=${{ secrets.NEXT_PUBLIC_API_BASE_URL }}" > .env.production
             
             pnpm install
             

@@ -1,3 +1,4 @@
+import { API_ENDPOINTS } from "../constants/api-endpoints";
 import {
   IGetCategoryByParentParams,
   IGetWhatHappenNowParams,
@@ -5,19 +6,21 @@ import {
 import { api } from "./axios";
 
 export const getTotalUserApi = async () => {
-  const { data } = await api.get("/stats/users/total");
+  const { data } = await api.get(API_ENDPOINTS.WELCOME.TOTAL_USERS);
   return data.data;
 };
 
 export const getCategoryByParentApi = async (
   params: IGetCategoryByParentParams
 ) => {
-  const { data } = await api.get("/get_category_by_parent/" + params.id);
+  const { data } = await api.get(
+    API_ENDPOINTS.WELCOME.CATEGORY_BY_PARENT(params.id)
+  );
   return data.data;
 };
 
 export const getWhatHappenNowApi = async (params: IGetWhatHappenNowParams) => {
-  const res = await api.get("/happening-now/", {
+  const res = await api.get(API_ENDPOINTS.WELCOME.HAPPENING_NOW, {
     params: params,
   });
   return res.data;
