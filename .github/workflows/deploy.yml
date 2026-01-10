@@ -44,7 +44,7 @@ jobs:
             
             cd /home/admin/jobsy-fe
             
-            git pull origin main
+            git reset --hard origin/main
             
             pnpm install
             
