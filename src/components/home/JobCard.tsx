@@ -3,11 +3,15 @@ import { Divider } from "antd";
 
 interface Props {
   job: JobItem;
+  onClick: () => void;
 }
 
-export default function JobCard({ job }: Props) {
+export default function JobCard({ job, onClick }: Props) {
   return (
-    <div className="flex flex-col lg:flex-row gap-6 lg:gap-0 justify-between rounded-xl bg-white p-5 shadow-sm border border-zinc-100">
+    <div
+      onClick={onClick}
+      className="flex cursor-pointer flex-col lg:flex-row gap-6 lg:gap-0 justify-between rounded-xl bg-white p-5 shadow-sm border border-zinc-100"
+    >
       {/* Left */}
       <div className="flex gap-4 flex-1">
         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-50 text-blue-600 font-semibold">

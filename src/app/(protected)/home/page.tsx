@@ -1,6 +1,7 @@
 "use client";
 
 import AuthGuard from "@/src/components/AuthGuard";
+import DetailJob from "@/src/components/home/DetailJob";
 import JobFilter from "@/src/components/home/JobFilter";
 import JobList from "@/src/components/home/JobList";
 import AppLayout from "@/src/components/layout/AppLayout";
@@ -10,11 +11,14 @@ import {
   useGetJobAreaData,
   useGetJobCategoryData,
 } from "@/src/hooks/useJob";
-import { JobListBodyRequest } from "@/src/types/job";
+import { JobItem, JobListBodyRequest } from "@/src/types/job";
+import { Drawer } from "antd";
 import { useState } from "react";
 
 export default function HomePage() {
   const [filters, setFilters] = useState<JobListBodyRequest>({});
+  const [selectedJob, setSelectedJob] = useState<JobItem | null>(null);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 5;
   const { data: masterDataArea, isPending: isPendingMasterDataArea } =
@@ -30,6 +34,18 @@ export default function HomePage() {
     },
     filters
   );
+
+  // Handle open
+  const handleOpenJob = (job: JobItem) => {
+    setSelectedJob(job);
+    setIsDrawerOpen(true);
+  };
+
+  // Handle close
+  const handleCloseDrawer = () => {
+    setIsDrawerOpen(false);
+    setSelectedJob(null);
+  };
 
   const totalPages = Math.ceil((data?.metadata.total_items ?? 0) / pageSize);
 
@@ -66,7 +82,23 @@ export default function HomePage() {
             page={currentPage}
             totalPages={totalPages}
             onPageChange={handlePageChange}
+            onJobClick={handleOpenJob}
           />
+
+          <Drawer
+            title={selectedJob?.title}
+            placement="right"
+            onClose={handleCloseDrawer}
+            open={isDrawerOpen}
+            size={1000}
+            className="custom-drawer"
+          >
+            {selectedJob ? (
+              <div className="space-y-2">
+                <DetailJob job={selectedJob} />
+              </div>
+            ) : null}
+          </Drawer>
         </div>
       </AppLayout>
     </AuthGuard>

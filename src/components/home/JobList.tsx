@@ -10,6 +10,7 @@ interface Props {
   page: number;
   totalPages: number;
   onPageChange: (page: number) => void;
+  onJobClick: (job: JobItem) => void;
 }
 
 export default function JobList({
@@ -17,6 +18,7 @@ export default function JobList({
   page,
   totalPages,
   onPageChange,
+  onJobClick,
 }: Props) {
   const hasJobs = jobs && jobs.length > 0;
 
@@ -25,7 +27,7 @@ export default function JobList({
       {hasJobs ? (
         <>
           {jobs.map((job) => (
-            <JobCard key={job.id} job={job} />
+            <JobCard key={job.id} job={job} onClick={() => onJobClick(job)} />
           ))}
 
           <Pagination
