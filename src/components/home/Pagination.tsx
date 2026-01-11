@@ -1,6 +1,5 @@
 import Button from "../common/Button";
 
-// components/Pagination.tsx
 interface Props {
   page: number;
   totalPages: number;
@@ -8,6 +7,39 @@ interface Props {
 }
 
 export default function Pagination({ page, totalPages, onChange }: Props) {
+  const getPages = () => {
+    const pages: (number | string)[] = [];
+
+    // Always show first page
+    pages.push(1);
+
+    // Show left ellipsis if needed
+    if (page > 3) {
+      pages.push("...");
+    }
+
+    // Show current page neighbors
+    for (
+      let p = Math.max(2, page - 1);
+      p <= Math.min(totalPages - 1, page + 1);
+      p++
+    ) {
+      pages.push(p);
+    }
+
+    // Show right ellipsis if needed
+    if (page < totalPages - 2) {
+      pages.push("...");
+    }
+
+    // Always show last page
+    if (totalPages > 1) {
+      pages.push(totalPages);
+    }
+
+    return pages;
+  };
+
   return (
     <div className="mt-6 flex items-center justify-between">
       <Button
@@ -19,9 +51,8 @@ export default function Pagination({ page, totalPages, onChange }: Props) {
       </Button>
 
       <div className="flex items-center gap-2">
-        {Array.from({ length: totalPages }).map((_, i) => {
-          const p = i + 1;
-          return (
+        {getPages().map((p, i) =>
+          typeof p === "number" ? (
             <button
               key={p}
               onClick={() => onChange(p)}
@@ -33,8 +64,12 @@ export default function Pagination({ page, totalPages, onChange }: Props) {
             >
               {p}
             </button>
-          );
-        })}
+          ) : (
+            <span key={`ellipsis-${i}`} className="px-2 text-zinc-400">
+              …
+            </span>
+          )
+        )}
       </div>
 
       <Button
