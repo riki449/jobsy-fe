@@ -5,21 +5,31 @@ import JobFilter from "@/src/components/home/JobFilter";
 import JobList from "@/src/components/home/JobList";
 import AppLayout from "@/src/components/layout/AppLayout";
 import { Role } from "@/src/constants/roles";
-import { useGetJobList, useGetJobMasterData } from "@/src/hooks/useJob";
+import {
+  useGetJobList,
+  useGetJobAreaData,
+  useGetJobCategoryData,
+} from "@/src/hooks/useJob";
+import { JobListBodyRequest } from "@/src/types/job";
 import { useState } from "react";
 
 export default function HomePage() {
+  const [filters, setFilters] = useState<JobListBodyRequest>({});
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 5;
-  const { data: masterData, isPending: isPendingMasterData } =
-    useGetJobMasterData();
+  const { data: masterDataArea, isPending: isPendingMasterDataArea } =
+    useGetJobAreaData();
 
-  const { data, isPending } = useGetJobList({
-    page: currentPage,
-    page_size: pageSize,
-  });
+  const { data: masterDataCategory, isPending: isPendingMasterDataCat } =
+    useGetJobCategoryData();
 
-  console.log("masterD", masterData);
+  const { data, isPending } = useGetJobList(
+    {
+      page: currentPage,
+      page_size: pageSize,
+    },
+    filters
+  );
 
   const totalPages = Math.ceil((data?.metadata.total_items ?? 0) / pageSize);
 
@@ -30,9 +40,23 @@ export default function HomePage() {
 
   return (
     <AuthGuard allowedRoles={[Role.USER]}>
-      <AppLayout isLoading={isPending || isPendingMasterData}>
+      <AppLayout
+        isLoading={
+          isPending || isPendingMasterDataCat || isPendingMasterDataArea
+        }
+      >
         <div className="min-h-screen">
-          <JobFilter onSearch={() => {}} />
+          <JobFilter
+            onSearch={(queries) => {
+              const normalizedPayload = {
+                ...queries,
+                reg: queries?.reg?.map(String),
+              };
+              setFilters(normalizedPayload);
+            }}
+            areaData={masterDataArea?.areas}
+            categoryData={masterDataCategory?.groups}
+          />
           <h2 className="mb-4 mt-6 text-lg font-semibold">
             Opgaver i nærheden
           </h2>

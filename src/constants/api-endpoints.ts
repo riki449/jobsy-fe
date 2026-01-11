@@ -41,6 +41,13 @@ export const CATEGORY_ENDPOINTS = {
 } as const;
 
 /**
+ * Action Endpoints
+ */
+export const ACTION_ENDPOINTS = {
+  HAVA_JOBS: "/areas/actions/have-jobs",
+} as const;
+
+/**
  * Profile/User Endpoints
  */
 export const USER_ENDPOINTS = {
@@ -82,6 +89,7 @@ export const API_ENDPOINTS = {
   USER: USER_ENDPOINTS,
   COMPANY: COMPANY_ENDPOINTS,
   WELCOME: WELCOME_ENDPOINTS,
+  ACTION_ENDPOINTS: ACTION_ENDPOINTS,
 } as const;
 
 /**

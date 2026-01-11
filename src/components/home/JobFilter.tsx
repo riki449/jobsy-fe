@@ -1,60 +1,99 @@
 "use client";
 
-import { Form, Input } from "antd";
-import { FormSelect, SelectOption } from "../common/FormSelect";
+import { Area, JobCategoryGroup, JobListBodyRequest } from "@/src/types/job";
+import { Form } from "antd";
 import Button from "../common/Button";
 import { FormInput } from "../common/FormInput";
-
-type JobFilterValues = {
-  category?: string;
-  location?: string;
-  budget?: string;
-  keyword?: string;
-};
-
-const categoryOptions: SelectOption[] = [
-  { label: "Malerarbejde", value: "painting" },
-  { label: "Rengøring", value: "cleaning" },
-  { label: "VVS", value: "plumbing" },
-];
-
-const locationOptions: SelectOption[] = [
-  { label: "Århus", value: "aarhus" },
-  { label: "København", value: "copenhagen" },
-];
+import { FormSelect, SelectOption } from "../common/FormSelect";
 
 const budgetOptions: SelectOption[] = [
-  { label: "0-2.000", value: "0-2000" },
-  { label: "2.000-10.000", value: "2000-10000" },
-  { label: "10.000-50.000", value: "10000-50000" },
-  { label: "50.000-100.000", value: "50000-100000" },
-  { label: "Over 100.000", value: "100000" },
+  { label: "0-2.000", value: "1" },
+  { label: "2.000-10.000", value: "2" },
+  { label: "10.000-50.000", value: "3" },
+  { label: "50.000-100.000", value: "4" },
+  { label: "Over 100.000", value: "5" },
 ];
 
 export default function JobFilter({
   onSearch,
+  areaData,
+  categoryData,
 }: {
-  onSearch: (values: JobFilterValues) => void;
+  onSearch: (values: JobListBodyRequest) => void;
+  areaData?: Area[];
+  categoryData?: JobCategoryGroup[];
 }) {
+  const categoryOptions =
+    (categoryData &&
+      categoryData.map((group: JobCategoryGroup) => ({
+        label: <span className="font-medium">{group.parent.title}</span>,
+        options: group.categories.map((cat) => ({
+          label: <span className="ml-4">{cat.title}</span>,
+          value: cat.slug,
+        })),
+      }))) ||
+    [];
+
+  const locationOptions =
+    areaData &&
+    areaData.map((item: Area) => {
+      return {
+        label: item.title,
+        value: item.id,
+      };
+    });
+
+  const defaultCategories =
+    categoryData?.flatMap((group) =>
+      group.categories
+        .filter((cat) => cat.is_last_save_view)
+        .map((cat) => cat.slug)
+    ) || [];
+
+  const defaultLocations =
+    areaData?.filter((area) => area.is_last_save_view).map((area) => area.id) ||
+    [];
+
   return (
     <Form
       onFinish={onSearch}
+      initialValues={{ cat: defaultCategories, reg: defaultLocations }}
       className="flex items-center gap-3 rounded-xl bg-white shadow-sm p-4!"
     >
-      <Form.Item name="category" className="mb-0! w-40">
-        <FormSelect placeholder="Malerarbejde" options={categoryOptions} />
+      <Form.Item name="cat" className="mb-0! w-40">
+        <FormSelect
+          placeholder="Malerarbejde"
+          options={categoryOptions || []}
+          mode="multiple"
+          allowClear
+          showSearch
+          maxTagCount="responsive"
+        />
       </Form.Item>
 
-      <Form.Item name="location" className="mb-0! w-40">
-        <FormSelect placeholder="Århus" options={locationOptions} />
+      <Form.Item name="reg" className="mb-0! w-40">
+        <FormSelect
+          placeholder="Århus"
+          options={locationOptions || []}
+          mode="multiple"
+          allowClear
+          showSearch
+          maxTagCount="responsive"
+        />
       </Form.Item>
 
-      <Form.Item name="budget" className="mb-0! w-40">
-        <FormSelect placeholder="0-2.000" options={budgetOptions} />
+      <Form.Item name="job_size" className="mb-0! w-40">
+        <FormSelect
+          placeholder="0-2.000"
+          options={budgetOptions}
+          mode="multiple"
+          maxTagCount="responsive"
+          allowClear
+        />
       </Form.Item>
 
-      <Form.Item name="keyword" className="mb-0! flex-1">
-        <FormInput placeholder="Søg efter opgave..." />
+      <Form.Item name="job_to_find" className="mb-0! flex-1">
+        <FormInput allowClear placeholder="Søg efter opgave..." />
       </Form.Item>
 
       <Button type="submit" variant="primary" color="red-500">

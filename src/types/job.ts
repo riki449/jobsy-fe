@@ -67,6 +67,13 @@ export interface JobListRequest {
   page: number;
 }
 
+export interface JobListBodyRequest {
+  reg?: string[];
+  cat?: number[];
+  job_to_find?: string;
+  job_size?: number[];
+}
+
 export interface JobCategory {
   id: number;
   title: string;
@@ -87,4 +94,17 @@ export interface JobCategoryGroup {
 
 export interface JobCategoryGroupData {
   groups: JobCategoryGroup[];
+}
+
+// Represents a single area item
+export interface Area {
+  id: number;
+  title: string;
+  slug: string;
+  is_last_save_view: boolean;
+}
+
+// Represents the "data" object containing areas
+export interface JobAreasResponse {
+  areas: Area[];
 }
