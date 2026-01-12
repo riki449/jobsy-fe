@@ -46,6 +46,8 @@ jobs:
             
             cd /home/admin/jobsy-fe
             
+            git fetch --all
+            
             git reset --hard origin/main
             
             # Create .env.production file with API base URL
