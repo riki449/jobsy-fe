@@ -1,6 +1,6 @@
-import { useAuth } from "@/src/hooks/useAuth";
-import HeaderNav, { NAV_ITEMS } from "./HeaderNav";
+import { useAuth } from "@/src/features/auth/hooks/useAuth";
 import { usePathname } from "next/navigation";
+import HeaderNav, { NAV_ITEMS } from "./HeaderNav";
 
 const menu = [
   { label: "Opgaver i udbud", active: true },

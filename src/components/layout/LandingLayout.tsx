@@ -10,8 +10,8 @@ export default function LandingLayout({
   isLoading?: boolean;
 }) {
   return (
-    <html lang="da">
-      <body className="bg-white text-zinc-900">
+    <>
+      {/* <body className="bg-white text-zinc-900"> */}
         <Header />
 
         <div className="mx-auto flex bg-white relative">
@@ -27,7 +27,7 @@ export default function LandingLayout({
         </div>
 
         <Footer />
-      </body>
-    </html>
+      {/* </body> */}
+    </>
   );
 }

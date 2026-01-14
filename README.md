@@ -1,36 +1,107 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Jobsy - Modern Job Board Platform
 
-## Getting Started
+Welcome to the Jobsy frontend repository. This application is built with **Next.js 15+ (App Router)** and follows a modern, scalable **Feature-based Architecture**.
 
-First, run the development server:
+## 🚀 Technology Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Framework:** [Next.js](https://nextjs.org/) (App Router)
+- **Language:** [TypeScript](https://www.typescriptlang.org/)
+- **State Management:** [Zustand](https://github.com/pmndrs/zustand) (with Persist middleware)
+- **Data Fetching:** [TanStack Query (React Query)](https://tanstack.com/query/latest)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/) + Vanilla CSS
+- **UI Components:** [Ant Design](https://ant.design/)
+- **Authentication:** JWT (HttpOnly Cookies via Middleware + Server Actions)
+- **Icons:** [Ant Design Icons](https://ant.design/components/icon)
+
+## 📂 Project Architecture
+
+The project adopts a **Feature-based Architecture**, grouping files by business domain rather than technical type. This ensures scalability and maintainability.
+
+```
+src/
+├── app/                  # Next.js App Router (Routes & Layouts)
+│   ├── (portal)/         # Authenticated routes group
+│   │   ├── dashboard/    # User Dashboard
+│   │   └── home/         # Company Dashboard
+│   ├── login/            # Login Page
+│   └── page.tsx          # Landing Page
+│
+├── features/             # Business Logic (The Core)
+│   ├── auth/             # Authentication Feature
+│   │   ├── api/          # Auth API calls
+│   │   ├── components/   # Auth UI (LoginForm, UserAvatarMenu)
+│   │   ├── hooks/        # Auth hooks (useAuth)
+│   │   ├── store/        # Zustand Auth Store
+│   │   └── types/        # Auth Types
+│   ├── jobs/             # Jobs Logic
+│   │   ├── api/
+│   │   ├── components/
+│   │   │   ├── screens/  # Entire reusable screens
+│   │   │   └── ...
+│   │   ├── hooks/
+│   │   └── types/
+│   └── landing/          # Landing Page Feature
+│
+├── components/           # Shared/Generic UI Components
+│   ├── common/           # Dumb components (Button, Logo, Inputs)
+│   └── layout/           # Layout blocks (Header, Sidebar, Footer)
+│
+├── lib/                  # Library configurations (axios, queryClient)
+├── config/               # Constants & Env config (api.config, auth.config)
+└── middleware.ts         # Route protection & Redirection logic
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Key Conventions
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 1. State Management
+- **Global Auth State:** Managed by **Zustand** (`useAuthStore`).
+- **Server State:** Managed by **React Query** (`useQuery`, `useMutation`).
+- **Local State:** `useState`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 2. Authentication Flow
+- **Login:** Server Action (`loginAction`) sets HttpOnly Cookie.
+- **Client Sync:** Token is also returned to Client to sync with Zustand (for Axios client-side usage).
+- **Protection:** `middleware.ts` checks cookies and redirects based on Role.
+  - **User** -> `/dashboard`
+  - **Company** -> `/home`
 
-## Learn More
+### 3. API Calls
+- All API calls are localized in `features/{feature}/api`.
+- Use the configured `api` instance from `@/src/lib/axios`.
+- Custom hooks (e.g. `useGetJobList`) wrap React Query logic in `features/{feature}/hooks`.
 
-To learn more about Next.js, take a look at the following resources:
+## 🚦 Getting Started
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1.  **Install dependencies:**
+    ```bash
+    npm install
+    # or
+    pnpm install
+    ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2.  **Environment Setup:**
+    Create a `.env.local` file:
+    ```env
+    NEXT_PUBLIC_API_URL=http://.../api
+    JWT_SECRET=your_jwt_secret_for_middleware
+    ```
 
-## Deploy on Vercel
+3.  **Run Development Server:**
+    ```bash
+    npm run dev
+    ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4.  **Build for Production:**
+    ```bash
+    npm run build
+    npm start
+    ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🧹 Maintenance
+
+- **Adding a Feature:** Create a new folder in `src/features/`. Do not bloat `src/components`.
+- **Modifying Layout:** Check `src/components/layout/AppLayout.tsx` for Dashboard layout.
+- **Refactoring:** Keep `src/app` thin. Move logic to `features`.
+
+---
+*Built with ❤️ by Jobsy Team*

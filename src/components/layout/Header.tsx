@@ -1,12 +1,13 @@
 "use client";
 
-import { useAuth } from "@/src/hooks/useAuth";
+import Button from "@/src/components/common/Button";
+import Logo from "@/src/components/common/Logo";
+import UserAvatarMenu from "@/src/features/auth/components/UserAvatarMenu";
+import { useAuth } from "@/src/features/auth/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import Sidebar from "./SideBar";
-import UserMenu from "./UserMenu";
-import Button from "../common/Button";
 import HeaderNav from "./HeaderNav";
+import Sidebar from "./SideBar";
 
 export default function Header() {
   const router = useRouter();
@@ -28,19 +29,7 @@ export default function Header() {
               ☰
             </button>
 
-            <div className="flex items-end gap-2">
-              <span
-                onClick={() => {
-                  router.push("/");
-                }}
-                className="text-4xl text-white cursor-pointer font-semibold"
-              >
-                Jobsy
-              </span>
-              <span className="text-[16px] text-white font-semibold">
-                Billigst hver gang
-              </span>
-            </div>
+            <Logo variant="light" className="text-white" />
 
             {/* Navigation tabs */}
             <HeaderNav />
@@ -53,7 +42,7 @@ export default function Header() {
                 Saldo: 355,00 DKK
               </span>
 
-              <UserMenu />
+              <UserAvatarMenu />
             </div>
           ) : (
             <div className="flex items-center gap-2">
