@@ -8,7 +8,7 @@ import {
   FlagOutlined,
   HeartOutlined,
 } from "@ant-design/icons";
-import { Badge, Card, Divider, Space, Tag, Typography } from "antd";
+import { Badge, Card, Divider, message, Space, Tag, Typography } from "antd";
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -55,6 +55,7 @@ export default function DetailJob({ job }: Props) {
   const handleCopyLink = (): void => {
     const link = `https://www.jobsy.dk/jobs/${job.id}`;
     navigator.clipboard.writeText(link);
+    message.success("Copied!");
   };
 
   return (

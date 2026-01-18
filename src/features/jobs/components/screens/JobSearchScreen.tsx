@@ -12,6 +12,7 @@ import { JobItem, JobListBodyRequest } from "@/src/features/jobs/types";
 import { Drawer } from "antd";
 import { useState } from "react";
 import DetailJob from "../DetailJob";
+import LoadingOverlay from "@/src/components/common/LoadingOverlay";
 
 interface JobSearchScreenProps {
   title: string;
@@ -58,9 +59,7 @@ export default function JobSearchScreen({ title }: JobSearchScreenProps) {
   };
 
   return (
-    <AppLayout
-      isLoading={isPending || isPendingMasterDataArea || isPendingMasterDataCat}
-    >
+    <AppLayout>
       <div className="min-h-screen">
         <JobFilter
           onSearch={(queries) => {
@@ -75,13 +74,19 @@ export default function JobSearchScreen({ title }: JobSearchScreenProps) {
         />
         <h2 className="mb-4 mt-6 text-lg font-semibold">{title}</h2>
 
-        <JobList
-          jobs={data?.data || []}
-          page={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-          onJobClick={handleOpenJob}
-        />
+        <LoadingOverlay
+          loading={
+            isPending || isPendingMasterDataArea || isPendingMasterDataCat
+          }
+        >
+          <JobList
+            jobs={data?.data || []}
+            page={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+            onJobClick={handleOpenJob}
+          />
+        </LoadingOverlay>
 
         <Drawer
           title={selectedJob?.title}
