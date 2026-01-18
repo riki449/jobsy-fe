@@ -1,15 +1,17 @@
-import StarIcon from "@/src/components/icons/StarIcon";
+import { StarRating } from "@/src/components/icons/StarRating";
 
 function ReviewCard({
   name,
   company,
   task,
   text,
+  rating = 0,
 }: {
   name: string;
   company: string;
   task: string;
   text: string;
+  rating: number;
 }) {
   return (
     <div className="rounded-xl bg-white h-31 p-6 shadow-sm">
@@ -24,12 +26,10 @@ function ReviewCard({
 
       <div className="flex flex-row gap-4 items-center">
         <div className="mt-3 flex items-center gap-1">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <StarIcon key={i} />
-          ))}
+          <StarRating value={rating} />
         </div>
 
-        <p className="mt-2 text-sm text-zinc-600 italic">{text}</p>
+        <p className="mt-2 text-sm text-zinc-600 italic truncate">{text}</p>
       </div>
     </div>
   );

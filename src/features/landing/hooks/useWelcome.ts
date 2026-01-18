@@ -1,16 +1,18 @@
 import { AxiosError } from "axios";
 import { createMutation, createQuery } from "react-query-kit";
 import {
-    getCategoryByParentApi,
-    getTotalUserApi,
-    getWhatHappenNowApi,
+  getCategoryByParentApi,
+  getFeaturedApi,
+  getTotalUserApi,
+  getWhatHappenNowApi,
 } from "../api/welcomeApi";
 import {
-    ICategoryResponse,
-    IGetCategoryByParentParams,
-    IGetWhatHappenNowParams,
-    ITotalUserResponse,
-    IWhatHappenNowResponse,
+  ICategoryResponse,
+  IGetCategoryByParentParams,
+  IGetWhatHappenNowParams,
+  ITotalUserResponse,
+  IWhatHappenNowResponse,
+  ReviewsAndCompaniesResponse,
 } from "../types";
 
 export const useGetCategory = createMutation<
@@ -37,4 +39,13 @@ export const useWhatHappeningNow = createQuery<
 >({
   queryKey: ["get-what-happening-now"],
   fetcher: getWhatHappenNowApi,
+});
+
+export const useGetFeatured = createQuery<
+  ReviewsAndCompaniesResponse,
+  void,
+  AxiosError
+>({
+  queryKey: ["get-featured"],
+  fetcher: getFeaturedApi,
 });
