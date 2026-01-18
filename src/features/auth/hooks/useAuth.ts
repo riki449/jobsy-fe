@@ -1,13 +1,13 @@
 import { message } from "antd";
 import { AxiosError } from "axios";
 import { createMutation } from "react-query-kit";
-import { checkUserTypeApi, loginApi } from "../api/authApi";
+import { checkUserTypeApi, loginApi, swapViewApi } from "../api/authApi";
 import { useAuthStore } from "../store/authStore";
 import {
-    CheckAccountTypeResponse,
-    LoginFormValues,
-    LoginResponse,
-    UserTypeParams,
+  CheckAccountTypeResponse,
+  LoginFormValues,
+  LoginResponse,
+  UserTypeParams,
 } from "../types";
 
 export const useAuth = () => {
@@ -25,6 +25,22 @@ export const useLogin = createMutation<
       (error.response?.data as AxiosError)?.message ||
       error.message ||
       "Login failed. Please try again.";
+
+    message.error(errorMessage);
+  },
+});
+
+export const useSwapView = createMutation<
+  LoginResponse,
+  LoginFormValues,
+  AxiosError
+>({
+  mutationFn: swapViewApi,
+  onError: (error) => {
+    const errorMessage =
+      (error.response?.data as AxiosError)?.message ||
+      error.message ||
+      "Swap failed. Please try again.";
 
     message.error(errorMessage);
   },

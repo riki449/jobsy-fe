@@ -1,14 +1,15 @@
 "use client";
 
+import { useAuthModal } from "@/src/components/layout/AuthModalContext";
 import { useAuth } from "@/src/features/auth/hooks/useAuth";
 import { useAuthStore } from "@/src/features/auth/store/authStore";
 import { UserType } from "@/src/features/auth/types";
 import { getUserName } from "@/src/utils/utils";
 import {
-    CustomerServiceOutlined,
-    LogoutOutlined,
-    StarOutlined,
-    UserOutlined,
+  CustomerServiceOutlined,
+  LogoutOutlined,
+  StarOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Dropdown } from "antd";
@@ -17,12 +18,12 @@ export default function UserAvatarMenu() {
   const { logout } = useAuthStore();
   const { accountName, userType } = useAuth();
   const isCompany = userType === UserType.COMPANY;
-  const userName = getUserName(accountName || "") || "-";
+  const userName = getUserName(accountName || "")?.slice(1) || "-";
+  const { openLogin } = useAuthModal();
 
   const activeStyle =
-    "rounded-md bg-lime-400 px-3 py-1 text-sm font-medium text-black";
+    "rounded-md bg-lime-400 px-3 py-1 text-sm font-medium text-black cursor-not-allowed";
   const inactiveStyle = "text-sm";
-
 
   const items: MenuProps["items"] = [
     {
@@ -51,8 +52,8 @@ export default function UserAvatarMenu() {
       icon: <CustomerServiceOutlined />,
       label: "Support",
       onClick: () => {
-          // Add support link logic
-      }
+        // Add support link logic
+      },
     },
     {
       key: "logout",
@@ -71,10 +72,22 @@ export default function UserAvatarMenu() {
       key: "switch",
       label: (
         <div className="flex items-center justify-between gap-2">
-          <span className={isCompany ? inactiveStyle : activeStyle}>
+          <span
+            className={isCompany ? inactiveStyle : activeStyle}
+            onClick={() => {
+              if (!isCompany) return;
+              openLogin();
+            }}
+          >
             Kundebruger
           </span>
-          <span className={isCompany ? activeStyle : inactiveStyle}>
+          <span
+            className={isCompany ? activeStyle : inactiveStyle}
+            onClick={() => {
+              if (isCompany) return;
+              openLogin();
+            }}
+          >
             Firmabruger
           </span>
         </div>

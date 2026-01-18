@@ -4,9 +4,9 @@ import AppLayout from "@/src/components/layout/AppLayout";
 import JobFilter from "@/src/features/home/components/JobFilter";
 import JobList from "@/src/features/home/components/JobList";
 import {
-    useGetJobAreaData,
-    useGetJobCategoryData,
-    useGetJobList,
+  useGetJobAreaData,
+  useGetJobCategoryData,
+  useGetJobList,
 } from "@/src/features/jobs/hooks/useJob";
 import { JobItem, JobListBodyRequest } from "@/src/features/jobs/types";
 import { Drawer } from "antd";
@@ -57,16 +57,10 @@ export default function JobSearchScreen({ title }: JobSearchScreenProps) {
     setSelectedJob(null);
   };
 
-  if (isPending || isPendingMasterDataArea || isPendingMasterDataCat) {
-    return (
-      <AppLayout isLoading={true}>
-        <div className="p-8 text-center">Loading...</div>
-      </AppLayout>
-    );
-  }
-
   return (
-    <AppLayout isLoading={isPending}>
+    <AppLayout
+      isLoading={isPending || isPendingMasterDataArea || isPendingMasterDataCat}
+    >
       <div className="min-h-screen">
         <JobFilter
           onSearch={(queries) => {

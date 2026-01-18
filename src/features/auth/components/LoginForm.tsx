@@ -6,6 +6,7 @@ import Button from "@/src/components/common/Button";
 import { FormInput } from "@/src/components/common/FormInput";
 import { Divider, Form, Typography } from "antd";
 import Image from "next/image";
+import { twMerge } from "tailwind-merge";
 
 const { Title } = Typography;
 
@@ -16,11 +17,17 @@ type LoginFormValues = {
 
 interface LoginFormProps {
   onSubmit: (data: LoginFormValues) => void;
+  className?: string;
 }
 
-export default function LoginForm({ onSubmit }: LoginFormProps) {
+export default function LoginForm({ onSubmit, className }: LoginFormProps) {
   return (
-    <div className="mx-auto max-w-md rounded-lg bg-white p-6 shadow">
+    <div
+      className={twMerge(
+        "mx-auto max-w-md rounded-lg bg-white p-6 shadow",
+        className
+      )}
+    >
       {/* Logo */}
       <Title
         level={3}

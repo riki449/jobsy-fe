@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import HeaderNav from "./HeaderNav";
 import Sidebar from "./SideBar";
+import { AuthModalProvider } from "./AuthModalContext";
 
 export default function Header() {
   const router = useRouter();
@@ -41,8 +42,9 @@ export default function Header() {
               <span className="hidden sm:block rounded-full bg-green-100 px-3 py-1 text-sm font-medium text-green-700">
                 Saldo: 355,00 DKK
               </span>
-
-              <UserAvatarMenu />
+              <AuthModalProvider>
+                <UserAvatarMenu />
+              </AuthModalProvider>
             </div>
           ) : (
             <div className="flex items-center gap-2">
