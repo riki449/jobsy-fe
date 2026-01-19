@@ -8,13 +8,15 @@ import { useCheckUserType } from "@/src/features/auth/hooks/useAuth";
 import { useAuthStore } from "@/src/features/auth/store/authStore";
 import { LoginFormValues } from "@/src/features/auth/types";
 import { message } from "antd";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { useState } from "react";
 
 export default function LoginPage() {
   // const dispatch = useDispatch();
   const { login, setUserType } = useAuthStore();
   const router = useRouter();
+  const params = useParams();
+  const locale = params?.locale || "da";
 
   const [loading, setLoading] = useState(false);
   const { mutateAsync: checkUserType, isPending: isPendingCheckUserType } =
@@ -46,10 +48,10 @@ export default function LoginPage() {
           // Logic: default_company_view == 0 -> User, else Company
           // This matches Middleware logic
           const isCompany = Number(data.default_company_view || 0) !== 0;
-          router.push(isCompany ? "/company" : "/dashboard");
+          router.push(isCompany ? `/${locale}/company` : `/${locale}/dashboard`);
         } else {
           // Fallback default
-          router.push("/dashboard");
+          router.push(`/${locale}/dashboard`);
         }
       }
     } catch (err) {

@@ -15,10 +15,13 @@ import {
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Dropdown } from "antd";
+import { useParams } from "next/navigation";
 
 export default function UserAvatarMenu() {
   const { logout } = useAuthStore();
   const { accountName, userType } = useAuth();
+  const params = useParams();
+  const locale = params?.locale || "da";
   const isCompany = userType === UserType.COMPANY;
   const userName = getUserName(accountName || "")?.slice(1) || "-";
   const { openLogin } = useAuthModal();
@@ -79,7 +82,7 @@ export default function UserAvatarMenu() {
       onClick: () => {
         logout();
         // Force reload or redirect to ensure clean state if needed
-        window.location.href = "/login";
+        window.location.href = `/${locale}/login`;
       },
     },
     { type: "divider" },

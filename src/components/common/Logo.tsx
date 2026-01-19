@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 
 interface LogoProps {
   variant?: "light" | "dark";
@@ -16,12 +16,14 @@ export default function Logo({
   onClick,
 }: LogoProps) {
   const router = useRouter();
+  const params = useParams();
+  const locale = params?.locale || "da";
 
   const handleClick = () => {
     if (onClick) {
       onClick();
     } else {
-      router.push("/");
+      router.push(`/${locale}`);
     }
   };
 

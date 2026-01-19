@@ -1,7 +1,7 @@
 "use client";
 
 import { Modal, message } from "antd";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { forwardRef, useImperativeHandle, useState } from "react";
 
 import LoadingOverlay from "@/src/components/common/LoadingOverlay";
@@ -18,6 +18,8 @@ export type LoginModalRef = {
 
 const LoginModal = forwardRef<LoginModalRef>((_, ref) => {
   const router = useRouter();
+  const params = useParams();
+  const locale = params?.locale || "da";
   const { setUserType } = useAuthStore();
 
   const [open, setOpen] = useState(false);
@@ -46,13 +48,13 @@ const LoginModal = forwardRef<LoginModalRef>((_, ref) => {
         if (data) {
           setUserType(data);
           const isCompany = Number(data.default_company_view || 0) !== 0;
-          router.push(isCompany ? "/company" : "/dashboard");
+          router.push(isCompany ? `/${locale}/company` : `/${locale}/dashboard`);
         } else {
-          router.push("/dashboard");
+          router.push(`/${locale}/dashboard`);
         }
       }
 
-      router.replace("/");
+      router.replace(`/${locale}`);
     } catch {
       message.error("An unexpected error occurred");
     } finally {

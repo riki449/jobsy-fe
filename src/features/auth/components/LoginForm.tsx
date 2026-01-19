@@ -6,6 +6,7 @@ import Button from "@/src/components/common/Button";
 import { FormInput } from "@/src/components/common/FormInput";
 import { Divider, Form, Typography } from "antd";
 import Image from "next/image";
+import { useParams } from "next/navigation";
 import { twMerge } from "tailwind-merge";
 
 const { Title } = Typography;
@@ -21,6 +22,9 @@ interface LoginFormProps {
 }
 
 export default function LoginForm({ onSubmit, className }: LoginFormProps) {
+  const params = useParams();
+  const locale = params?.locale || "da";
+
   return (
     <div
       className={twMerge(
@@ -33,7 +37,7 @@ export default function LoginForm({ onSubmit, className }: LoginFormProps) {
         level={3}
         className="mb-2 cursor-pointer"
         onClick={() => {
-          window.location.href = "/";
+          window.location.href = `/${locale}`;
         }}
       >
         Jobsy

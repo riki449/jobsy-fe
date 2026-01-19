@@ -4,7 +4,7 @@ import Button from "@/src/components/common/Button";
 import Logo from "@/src/components/common/Logo";
 import UserAvatarMenu from "@/src/features/auth/components/UserAvatarMenu";
 import { useAuth } from "@/src/features/auth/hooks/useAuth";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { useState } from "react";
 import HeaderNav from "./HeaderNav";
 import Sidebar from "./SideBar";
@@ -12,6 +12,8 @@ import { AuthModalProvider } from "./AuthModalContext";
 
 export default function Header() {
   const router = useRouter();
+  const params = useParams();
+  const locale = params?.locale || "da";
   const { isAuthenticated } = useAuth();
 
   const [open, setOpen] = useState(false);
@@ -61,7 +63,7 @@ export default function Header() {
             <div className="flex items-center gap-2">
               <Button variant="outline">Tilmeld Firma</Button>
               <div
-                onClick={() => router.push("/login")}
+                onClick={() => router.push(`/${locale}/login`)}
                 className="cursor-pointer px-4 py-1.5 text-sm font-medium text-[#c3c3c3]"
               >
                 Log ind
