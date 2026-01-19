@@ -1,10 +1,10 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import {
-  APP_ROUTES,
-  PUBLIC_ROUTES,
-  SESSION_COOKIE_NAME,
-  USER_ROLES,
+    APP_ROUTES,
+    PUBLIC_ROUTES,
+    SESSION_COOKIE_NAME,
+    USER_ROLES,
 } from "./src/config/auth.config";
 
 export function middleware(request: NextRequest) {
@@ -103,7 +103,8 @@ export const config = {
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
      * - public folder
+     * - Static file extensions (svg, png, jpg, jpeg, gif, webp, ico, etc.)
      */
-    "/((?!api|_next/static|_next/image|favicon.ico|public).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|public|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|woff|woff2|ttf|eot)).*)",
   ],
 };
