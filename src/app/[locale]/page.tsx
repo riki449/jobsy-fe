@@ -8,7 +8,7 @@ import {
   useGetFeatured,
   useWhatHappeningNow,
 } from "@/src/features/landing/hooks/useWelcome";
-import LandingLayout from "../components/layout/LandingLayout";
+import LandingLayout from "@/src/components/layout/LandingLayout";
 
 export default function Home() {
   const { data: responseWhatHappeningNow, isPending } = useWhatHappeningNow();
