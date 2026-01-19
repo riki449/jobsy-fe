@@ -2,7 +2,7 @@
 
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { locales, type Locale } from "@/src/i18n/request";
-import { useState, useTransition } from "react";
+import { useState, useTransition, useEffect } from "react";
 
 const localeNames: Record<Locale, string> = {
   en: "English",
@@ -14,19 +14,36 @@ const localeFlags: Record<Locale, string> = {
   da: "🇩🇰",
 };
 
+const LOCALE_STORAGE_KEY = "preferred-locale";
+
 export default function LanguageSwitcher() {
   const router = useRouter();
   const pathname = usePathname();
   const params = useParams();
   const [isPending, startTransition] = useTransition();
   const [isOpen, setIsOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   const currentLocale = (params?.locale as Locale) || "da";
+
+  useEffect(() => {
+    setMounted(true);
+    // Load saved locale preference on mount
+    const savedLocale = localStorage.getItem(LOCALE_STORAGE_KEY) as Locale;
+    if (savedLocale && savedLocale !== currentLocale && locales.includes(savedLocale)) {
+      switchLocale(savedLocale);
+    }
+  }, []);
 
   const switchLocale = (newLocale: Locale) => {
     if (newLocale === currentLocale) {
       setIsOpen(false);
       return;
+    }
+
+    // Save to localStorage
+    if (mounted) {
+      localStorage.setItem(LOCALE_STORAGE_KEY, newLocale);
     }
 
     const segments = pathname.split("/");
@@ -38,6 +55,8 @@ export default function LanguageSwitcher() {
       setIsOpen(false);
     });
   };
+
+  if (!mounted) return null;
 
   return (
     <div className="relative">

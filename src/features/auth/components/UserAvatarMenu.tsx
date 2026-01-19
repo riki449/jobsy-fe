@@ -1,6 +1,7 @@
 "use client";
 
 import { useAuthModal } from "@/src/components/layout/AuthModalContext";
+import LanguageMenuItem from "@/src/components/common/LanguageMenuItem";
 import { useAuth } from "@/src/features/auth/hooks/useAuth";
 import { useAuthStore } from "@/src/features/auth/store/authStore";
 import { UserType } from "@/src/features/auth/types";
@@ -10,6 +11,7 @@ import {
   LogoutOutlined,
   StarOutlined,
   UserOutlined,
+  GlobalOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Dropdown } from "antd";
@@ -55,6 +57,20 @@ export default function UserAvatarMenu() {
         // Add support link logic
       },
     },
+    { type: "divider" },
+
+    {
+      key: "language",
+      icon: <GlobalOutlined />,
+      label: (
+        <div>
+          <div className="mb-2 font-medium">Vælg sprog / Choose language</div>
+          <LanguageMenuItem />
+        </div>
+      ),
+    },
+    { type: "divider" },
+
     {
       key: "logout",
       icon: <LogoutOutlined />,
