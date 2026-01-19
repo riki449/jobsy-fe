@@ -48,9 +48,11 @@ const LoginModal = forwardRef<LoginModalRef>((_, ref) => {
         if (data) {
           setUserType(data);
           const isCompany = Number(data.default_company_view || 0) !== 0;
-          router.push(isCompany ? `/${locale}/company` : `/${locale}/dashboard`);
+          const redirectUrl = isCompany ? `/${locale}/home` : `/${locale}/dashboard`;
+          // Use window.location for hard navigation
+          window.location.href = redirectUrl;
         } else {
-          router.push(`/${locale}/dashboard`);
+          window.location.href = `/${locale}/dashboard`;
         }
       }
 

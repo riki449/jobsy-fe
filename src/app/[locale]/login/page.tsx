@@ -30,6 +30,7 @@ export default function LoginPage() {
 
       if (res.error) {
         message.error(res.error);
+        setLoading(false);
         return;
       }
 
@@ -48,13 +49,21 @@ export default function LoginPage() {
           // Logic: default_company_view == 0 -> User, else Company
           // This matches Middleware logic
           const isCompany = Number(data.default_company_view || 0) !== 0;
-          router.push(isCompany ? `/${locale}/company` : `/${locale}/dashboard`);
+
+          const redirectUrl = isCompany ? `/${locale}/home` : `/${locale}/dashboard`;
+          console.log('🚀 Redirecting to:', redirectUrl);
+
+          // Use window.location for hard navigation to ensure cookie is included
+          window.location.href = redirectUrl;
         } else {
           // Fallback default
-          router.push(`/${locale}/dashboard`);
+          const fallbackUrl = `/${locale}/dashboard`;
+          console.log('🚀 Redirecting to fallback:', fallbackUrl);
+          window.location.href = fallbackUrl;
         }
       }
     } catch (err) {
+      console.error('❌ Login error:', err);
       message.error("An unexpected error occurred");
     } finally {
       setLoading(false);

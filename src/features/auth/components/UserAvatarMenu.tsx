@@ -65,12 +65,7 @@ export default function UserAvatarMenu() {
     {
       key: "language",
       icon: <GlobalOutlined />,
-      label: (
-        <div>
-          <div className="mb-2 font-medium">Vælg sprog / Choose language</div>
-          <LanguageMenuItem />
-        </div>
-      ),
+      label: <LanguageMenuItem />,
     },
     { type: "divider" },
 
