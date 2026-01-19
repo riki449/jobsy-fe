@@ -1,11 +1,15 @@
+"use client";
+
 import { categoryData } from "@/src/constants/data";
 import { useGetCategory, useGetTotalUser } from "@/src/features/landing/hooks/useWelcome";
 import { ICategory } from "@/src/features/landing/types";
 import { Skeleton } from "antd";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 
 export default function FilterSection() {
+  const t = useTranslations();
   const { mutateAsync: getCategory, isPending } = useGetCategory();
   const [category, setCategory] = useState<ICategory[]>([]);
   const [expanded, setExpanded] = useState(false);
@@ -52,18 +56,19 @@ export default function FilterSection() {
     <div className="w-full bg-white mx-auto max-w-7xl py-16 text-center rounded-2xl">
       {/* Title */}
       <h1 className="text-3xl font-semibold leading-tight md:text-5xl">
-        Få <span className="text-primaryGreen">3 tilbud</span> fra lokale
-        fagfolk, og spar penge
+        {t.rich("hero.title", {
+          count: () => <span className="text-primaryGreen">{t("hero.titleHighlight")}</span>,
+        })}
       </h1>
 
       {/* Search */}
       <div className="mx-auto mt-8 flex max-w-2xl overflow-hidden rounded-full h-17 shadow-[0px_0px_10px_0px_rgba(0,0,0,0.1)]">
         <input
-          placeholder="Hvad skal du bruge? Fx Advokat, Tømrer, Flyttefirma"
+          placeholder={t("hero.searchPlaceholder")}
           className="flex-1 px-6 py-3 text-xl outline-none"
         />
         <button className="bg-primaryGreen cursor-pointer px-6 py-3 text-xl font-semibold text-white hover:bg-green-700">
-          START
+          {t("common.start")}
         </button>
       </div>
 
@@ -124,7 +129,7 @@ export default function FilterSection() {
             onClick={() => setExpanded((prev) => !prev)}
             className="mt-3 text-sm cursor-pointer gap-2 inline-flex items-center font-medium"
           >
-            {expanded ? "skjul" : "se flere"}
+            {expanded ? t("common.hide") : t("common.seeMore")}
             <Image
               src="/images/double-down.png"
               width={14}
@@ -140,16 +145,18 @@ export default function FilterSection() {
 
       {/* Trust */}
       <p className="mt-10 text-sm font-semibold text-zinc-500">
-        Gør som{" "}
-        <span className="font-semibold">
-          {totalUser?.total_users
-            ? totalUser.total_users.toLocaleString("da-DK")
-            : "0"}
-        </span>{" "}
-        andre danskere · Book trygt{" "}
-        <span className="text-green-600">med garanti</span> · Spar
-        <span className="text-orange-500 font-semibold"> 60%</span> i forhold
-        til almindelig pris
+        {t.rich("hero.trustMessage", {
+          count: () => (
+            <span className="font-semibold">
+              {totalUser?.total_users
+                ? totalUser.total_users.toLocaleString("da-DK")
+                : "0"}
+            </span>
+          ),
+        })}{" "}
+        · {t("common.bookSafely")}{" "}
+        <span className="text-green-600">{t("common.withGuarantee")}</span> · {t("common.save")}
+        <span className="text-orange-500 font-semibold"> 60%</span> {t("common.comparedToRegularPrice")}
       </p>
     </div>
   );

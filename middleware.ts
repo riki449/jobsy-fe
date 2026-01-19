@@ -1,3 +1,4 @@
+import createMiddleware from "next-intl/middleware";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import {
@@ -6,6 +7,13 @@ import {
     SESSION_COOKIE_NAME,
     USER_ROLES,
 } from "./src/config/auth.config";
+import { locales, defaultLocale } from "./src/i18n/request";
+
+const intlMiddleware = createMiddleware({
+  locales,
+  defaultLocale,
+  localePrefix: "always",
+});
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -35,6 +43,22 @@ export function middleware(request: NextRequest) {
     }
   }
 
+  // Extract locale from pathname (e.g., /en/dashboard -> en)
+  const pathnameHasLocale = locales.some(
+    (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
+  );
+
+  // If no locale in path, let intl middleware handle it
+  if (!pathnameHasLocale) {
+    return intlMiddleware(request);
+  }
+
+  // Get the locale from pathname
+  const locale = pathname.split("/")[1];
+
+  // Remove locale prefix for route matching
+  const pathnameWithoutLocale = pathname.replace(`/${locale}`, "") || "/";
+
   // 2. Route Protection Logic
 
   // Case A: User is Guest (Not Logged In)
@@ -43,26 +67,26 @@ export function middleware(request: NextRequest) {
   if (role === USER_ROLES.GUEST) {
     const isPublic = PUBLIC_ROUTES.some(
       (route) =>
-        pathname === route ||
-        pathname.startsWith("/public") ||
-        pathname.startsWith("/images")
+        pathnameWithoutLocale === route ||
+        pathnameWithoutLocale.startsWith("/public") ||
+        pathnameWithoutLocale.startsWith("/images")
     );
     if (!isPublic) {
       // Store original url to redirect back after login
-      const url = new URL("/login", request.url);
+      const url = new URL(`/${locale}/login`, request.url);
       url.searchParams.set("callbackUrl", pathname);
       return NextResponse.redirect(url);
     }
-    return NextResponse.next();
+    return intlMiddleware(request);
   }
 
   // Case B: User is Logged In
   // Prevent access to Login page again AND redirect root to dashboard
-  if (pathname === "/login" || pathname === "/register" || pathname === "/") {
+  if (pathnameWithoutLocale === "/login" || pathnameWithoutLocale === "/register" || pathnameWithoutLocale === "/") {
     const homeUrl =
       role === USER_ROLES.COMPANY
-        ? APP_ROUTES.COMPANY_DASHBOARD
-        : APP_ROUTES.USER_DASHBOARD;
+        ? `/${locale}${APP_ROUTES.COMPANY_DASHBOARD}`
+        : `/${locale}${APP_ROUTES.USER_DASHBOARD}`;
     return NextResponse.redirect(new URL(homeUrl, request.url));
   }
 
@@ -71,11 +95,11 @@ export function middleware(request: NextRequest) {
   // Scenario: "User" role trying to access Company Area
   if (
     role === USER_ROLES.USER &&
-    pathname.startsWith(APP_ROUTES.COMPANY_DASHBOARD)
+    pathnameWithoutLocale.startsWith(APP_ROUTES.COMPANY_DASHBOARD)
   ) {
     // Redirect back to User Dashboard
     return NextResponse.redirect(
-      new URL(APP_ROUTES.USER_DASHBOARD, request.url)
+      new URL(`/${locale}${APP_ROUTES.USER_DASHBOARD}`, request.url)
     );
   }
 
@@ -83,14 +107,14 @@ export function middleware(request: NextRequest) {
   // (Assuming strict separation. If Company can view User area, remove this)
   if (
     role === USER_ROLES.COMPANY &&
-    pathname.startsWith(APP_ROUTES.USER_DASHBOARD)
+    pathnameWithoutLocale.startsWith(APP_ROUTES.USER_DASHBOARD)
   ) {
     return NextResponse.redirect(
-      new URL(APP_ROUTES.COMPANY_DASHBOARD, request.url)
+      new URL(`/${locale}${APP_ROUTES.COMPANY_DASHBOARD}`, request.url)
     );
   }
 
-  return NextResponse.next();
+  return intlMiddleware(request);
 }
 
 // Ensure middleware runs on relevant paths

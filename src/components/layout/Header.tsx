@@ -2,6 +2,7 @@
 
 import Button from "@/src/components/common/Button";
 import Logo from "@/src/components/common/Logo";
+import LanguageSwitcher from "@/src/components/common/LanguageSwitcher";
 import UserAvatarMenu from "@/src/features/auth/components/UserAvatarMenu";
 import { useAuth } from "@/src/features/auth/hooks/useAuth";
 import { useRouter } from "next/navigation";
@@ -48,26 +49,30 @@ export default function Header() {
           </div>
 
           {/* Right */}
-          {isAuthenticated ? (
-            <div className="flex items-center gap-4">
-              <span className="hidden sm:block rounded-full bg-green-100 px-3 py-1 text-sm font-medium text-green-700">
-                Saldo: 355,00 DKK
-              </span>
-              <AuthModalProvider>
-                <UserAvatarMenu />
-              </AuthModalProvider>
-            </div>
-          ) : (
-            <div className="flex items-center gap-2">
-              <Button variant="outline">Tilmeld Firma</Button>
-              <div
-                onClick={() => router.push("/login")}
-                className="cursor-pointer px-4 py-1.5 text-sm font-medium text-[#c3c3c3]"
-              >
-                Log ind
+          <div className="flex items-center gap-3">
+            <LanguageSwitcher />
+
+            {isAuthenticated ? (
+              <div className="flex items-center gap-4">
+                <span className="hidden sm:block rounded-full bg-green-100 px-3 py-1 text-sm font-medium text-green-700">
+                  Saldo: 355,00 DKK
+                </span>
+                <AuthModalProvider>
+                  <UserAvatarMenu />
+                </AuthModalProvider>
               </div>
-            </div>
-          )}
+            ) : (
+              <div className="flex items-center gap-2">
+                <Button variant="outline">Tilmeld Firma</Button>
+                <div
+                  onClick={() => router.push("/login")}
+                  className="cursor-pointer px-4 py-1.5 text-sm font-medium text-[#c3c3c3]"
+                >
+                  Log ind
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </header>
 

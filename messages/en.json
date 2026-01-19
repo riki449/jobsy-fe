@@ -1,0 +1,61 @@
+{
+  "common": {
+    "start": "START",
+    "readMore": "Read more",
+    "seeMore": "see more",
+    "hide": "hide",
+    "bookSafely": "Book safely",
+    "withGuarantee": "with guarantee",
+    "save": "Save",
+    "comparedToRegularPrice": "compared to regular price"
+  },
+  "hero": {
+    "title": "Get {count} quotes from local professionals and save money",
+    "titleHighlight": "3 quotes",
+    "searchPlaceholder": "What do you need? E.g. Lawyer, Carpenter, Moving company",
+    "trustMessage": "Join {count} other Danes"
+  },
+  "whyJobsy": {
+    "title": "Why use Jobsy?",
+    "features": {
+      "moreBids": {
+        "title": "More bids",
+        "description": "Compare prices and make a {highlight}",
+        "descriptionHighlight": "great deal"
+      },
+      "freeCommunication": {
+        "title": "Free communication",
+        "description": "Get a {highlight} if you want",
+        "descriptionHighlight": "free inspection"
+      },
+      "genuineReviews": {
+        "title": "Genuine reviews",
+        "description": "Hire the best and rate yourself"
+      },
+      "freeToUse": {
+        "title": "Free to use",
+        "description": "100% free and non-binding"
+      },
+      "taskGuarantee": {
+        "title": "Task guarantee",
+        "description": "Most quotes have a guarantee covering up to {amount}",
+        "amount": "DKK 40,000"
+      }
+    }
+  },
+  "auth": {
+    "login": "Log in",
+    "email": "Email",
+    "password": "Password",
+    "forgotPassword": "Forgot password?",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign up",
+    "errorOccurred": "An unexpected error occurred"
+  },
+  "categories": {
+    "accounting": "Accounting",
+    "construction": "Construction",
+    "moving": "Moving company",
+    "legal": "Legal"
+  }
+}

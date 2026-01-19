@@ -1,86 +1,101 @@
+"use client";
+
 import Image from "next/image";
 import React from "react";
+import { useTranslations } from "next-intl";
 
 type Feature = {
-  title: string;
-  description: React.ReactNode;
+  titleKey: string;
+  descriptionKey: string;
+  descriptionHighlightKey?: string;
   icon: string;
-  link?: string;
+  linkKey?: string;
 };
 
 const features: Feature[] = [
   {
-    title: "Flere tilbud",
-    description: (
-      <>
-        Sammenlign priser, og lav en <b>super handel</b>
-      </>
-    ),
+    titleKey: "whyJobsy.features.moreBids.title",
+    descriptionKey: "whyJobsy.features.moreBids.description",
+    descriptionHighlightKey: "whyJobsy.features.moreBids.descriptionHighlight",
     icon: "/bids.svg",
   },
   {
-    title: "Fri kommunikation",
-    description: (
-      <>
-        Få en <b>gratis besigtigelse</b>, hvis du ønsker
-      </>
-    ),
+    titleKey: "whyJobsy.features.freeCommunication.title",
+    descriptionKey: "whyJobsy.features.freeCommunication.description",
+    descriptionHighlightKey:
+      "whyJobsy.features.freeCommunication.descriptionHighlight",
     icon: "/handshake.svg",
   },
   {
-    title: "Ægte bedømmelser",
-    description: "Hyr den bedste, og bedøm selv",
+    titleKey: "whyJobsy.features.genuineReviews.title",
+    descriptionKey: "whyJobsy.features.genuineReviews.description",
     icon: "/star.svg",
   },
   {
-    title: "Gratis at bruge",
-    description: "100% gratis og uforpligtende",
+    titleKey: "whyJobsy.features.freeToUse.title",
+    descriptionKey: "whyJobsy.features.freeToUse.description",
     icon: "/free-of-charge.svg",
   },
   {
-    title: "Garanti på opgaven",
-    description: (
-      <>
-        De fleste tilbud har en garanti som dækker op til <b>40.000 kr</b>
-      </>
-    ),
+    titleKey: "whyJobsy.features.taskGuarantee.title",
+    descriptionKey: "whyJobsy.features.taskGuarantee.description",
     icon: "/guarantee.svg",
-    link: "Læs mere",
+    linkKey: "common.readMore",
   },
 ];
 
 const WhyJobsy: React.FC = () => {
+  const t = useTranslations();
+
   return (
     <section className="bg-white py-16">
       <div className="mx-auto max-w-6xl px-4">
         <h2 className="mb-12 text-center text-4xl font-extrabold text-gray-700">
-          Hvorfor bruge Jobsy?
+          {t("whyJobsy.title")}
         </h2>
 
         <div className="grid gap-y-20 gap-x-20 sm:grid-cols-2">
-          {features.map((item, index) => (
-            <div key={index} className="flex items-center gap-4">
-              <Image alt="img" src={item.icon} width={100} height={100} />
+          {features.map((item, index) => {
+            const description = item.descriptionHighlightKey
+              ? t.rich(item.descriptionKey, {
+                  highlight: () => (
+                    <b>{t(item.descriptionHighlightKey!)}</b>
+                  ),
+                })
+              : t(item.descriptionKey);
 
-              <div>
-                <h3 className="text-2xl font-semibold text-gray-700">
-                  {item.title}
-                </h3>
-                <p className="mt-1 text-lg font-medium text-gray-500">
-                  {item.description}
-                </p>
+            // For taskGuarantee, pass the amount as a parameter
+            const finalDescription =
+              item.titleKey === "whyJobsy.features.taskGuarantee.title"
+                ? t.rich(item.descriptionKey, {
+                    amount: () => <b>{t("whyJobsy.features.taskGuarantee.amount")}</b>,
+                  })
+                : description;
 
-                {item.link && (
-                  <a
-                    href="#"
-                    className="mt-2 underline inline-block text-sm text-green-600 hover:underline"
-                  >
-                    {item.link}
-                  </a>
-                )}
+            return (
+              <div key={index} className="flex items-center gap-4">
+                <Image alt="img" src={item.icon} width={100} height={100} />
+
+                <div>
+                  <h3 className="text-2xl font-semibold text-gray-700">
+                    {t(item.titleKey)}
+                  </h3>
+                  <p className="mt-1 text-lg font-medium text-gray-500">
+                    {finalDescription}
+                  </p>
+
+                  {item.linkKey && (
+                    <a
+                      href="#"
+                      className="mt-2 underline inline-block text-sm text-green-600 hover:underline"
+                    >
+                      {t(item.linkKey)}
+                    </a>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

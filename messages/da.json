@@ -1,0 +1,61 @@
+{
+  "common": {
+    "start": "START",
+    "readMore": "Læs mere",
+    "seeMore": "se flere",
+    "hide": "skjul",
+    "bookSafely": "Book trygt",
+    "withGuarantee": "med garanti",
+    "save": "Spar",
+    "comparedToRegularPrice": "i forhold til almindelig pris"
+  },
+  "hero": {
+    "title": "Få {count} tilbud fra lokale fagfolk, og spar penge",
+    "titleHighlight": "3 tilbud",
+    "searchPlaceholder": "Hvad skal du bruge? Fx Advokat, Tømrer, Flyttefirma",
+    "trustMessage": "Gør som {count} andre danskere"
+  },
+  "whyJobsy": {
+    "title": "Hvorfor bruge Jobsy?",
+    "features": {
+      "moreBids": {
+        "title": "Flere tilbud",
+        "description": "Sammenlign priser, og lav en {highlight}",
+        "descriptionHighlight": "super handel"
+      },
+      "freeCommunication": {
+        "title": "Fri kommunikation",
+        "description": "Få en {highlight}, hvis du ønsker",
+        "descriptionHighlight": "gratis besigtigelse"
+      },
+      "genuineReviews": {
+        "title": "Ægte bedømmelser",
+        "description": "Hyr den bedste, og bedøm selv"
+      },
+      "freeToUse": {
+        "title": "Gratis at bruge",
+        "description": "100% gratis og uforpligtende"
+      },
+      "taskGuarantee": {
+        "title": "Garanti på opgaven",
+        "description": "De fleste tilbud har en garanti som dækker op til {amount}",
+        "amount": "40.000 kr"
+      }
+    }
+  },
+  "auth": {
+    "login": "Log ind",
+    "email": "E-mail",
+    "password": "Adgangskode",
+    "forgotPassword": "Glemt adgangskode?",
+    "noAccount": "Har du ikke en konto?",
+    "signUp": "Tilmeld dig",
+    "errorOccurred": "Der opstod en uventet fejl"
+  },
+  "categories": {
+    "accounting": "Regnskab",
+    "construction": "Håndværker",
+    "moving": "Flyttefirma",
+    "legal": "Advokat"
+  }
+}
