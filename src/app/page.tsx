@@ -13,7 +13,7 @@ import LandingLayout from "../components/layout/LandingLayout";
 export default function Home() {
   const { data: responseWhatHappeningNow, isPending } = useWhatHappeningNow();
   const { data: featuredData } = useGetFeatured();
-  console.log("featuredData", featuredData);
+
   return (
     <LandingLayout>
       <div className="flex flex-col min-h-screen relative">

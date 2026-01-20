@@ -23,7 +23,7 @@ export function middleware(request: NextRequest) {
       const base64Url = token.split(".")[1];
       const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
       const jsonPayload = JSON.parse(
-        Buffer.from(base64, "base64").toString("utf-8")
+        Buffer.from(base64, "base64").toString("utf-8"),
       );
 
       // LOGIC: default_company_view == 0 -> USER, ELSE -> COMPANY
@@ -45,7 +45,7 @@ export function middleware(request: NextRequest) {
       (route) =>
         pathname === route ||
         pathname.startsWith("/public") ||
-        pathname.startsWith("/images")
+        pathname.startsWith("/images"),
     );
     if (!isPublic) {
       // Store original url to redirect back after login
@@ -75,7 +75,7 @@ export function middleware(request: NextRequest) {
   ) {
     // Redirect back to User Dashboard
     return NextResponse.redirect(
-      new URL(APP_ROUTES.USER_DASHBOARD, request.url)
+      new URL(APP_ROUTES.USER_DASHBOARD, request.url),
     );
   }
 
@@ -86,7 +86,7 @@ export function middleware(request: NextRequest) {
     pathname.startsWith(APP_ROUTES.USER_DASHBOARD)
   ) {
     return NextResponse.redirect(
-      new URL(APP_ROUTES.COMPANY_DASHBOARD, request.url)
+      new URL(APP_ROUTES.COMPANY_DASHBOARD, request.url),
     );
   }
 

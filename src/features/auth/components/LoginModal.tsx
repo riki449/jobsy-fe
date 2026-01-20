@@ -46,7 +46,7 @@ const LoginModal = forwardRef<LoginModalRef>((_, ref) => {
         if (data) {
           setUserType(data);
           const isCompany = Number(data.default_company_view || 0) !== 0;
-          router.push(isCompany ? "/company" : "/dashboard");
+          router.push(isCompany ? "/company" : "/user");
         } else {
           router.push("/dashboard");
         }

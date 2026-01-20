@@ -14,6 +14,7 @@ interface AuthState {
   accountName: string | null;
   email: string | null;
   id: string | null;
+  isCompany: boolean;
 
   // Actions
   login: (tokens: Tokens) => void;
@@ -34,6 +35,7 @@ export const useAuthStore = create<AuthState>()(
       accountName: null,
       email: null,
       id: null,
+      isCompany: false,
 
       // Actions
       login: (tokens: Tokens) =>
@@ -49,6 +51,7 @@ export const useAuthStore = create<AuthState>()(
           accountName: info.main_account.account_name,
           email: info.main_account.email,
           id: info.main_account.id,
+          isCompany: info.type === UserType.COMPANY,
         }),
 
       logout: () => {
@@ -69,6 +72,6 @@ export const useAuthStore = create<AuthState>()(
     {
       name: "auth-storage", // key in localStorage
       // partialize: (state) => ({ token: state.token }), // Optional: whitelist specific fields
-    }
-  )
+    },
+  ),
 );

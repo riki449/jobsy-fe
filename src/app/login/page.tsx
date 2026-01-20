@@ -46,7 +46,7 @@ export default function LoginPage() {
           // Logic: default_company_view == 0 -> User, else Company
           // This matches Middleware logic
           const isCompany = Number(data.default_company_view || 0) !== 0;
-          router.push(isCompany ? "/company" : "/dashboard");
+          router.push(isCompany ? "/company" : "/user");
         } else {
           // Fallback default
           router.push("/dashboard");
